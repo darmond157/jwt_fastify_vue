@@ -1,0 +1,42 @@
+version: "3.2"
+
+services:
+  # client:
+  #   build: ./Frontend
+  #   container_name: client_container
+  #   ports:
+  #     - 4173:4173
+  #   networks:
+  #     - web_network
+
+  server:
+    build: ./Backend
+    container_name: server_container
+    ports:
+      - 3000:3000
+    environment:
+      - PORT=3000
+      - HOST=0.0.0.0
+      - POSTGRES_URL=postgres://postgres:password@postgres_container/postgres
+      - SALT_WORK_FACTOR=12
+      - JWT_SECRET=secretpassword
+
+    networks:
+      - web_network
+    depends_on:
+      - database
+
+  database:
+    image: docker.arvancloud.ir/postgres:16-alpine
+    container_name: postgres_container
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    networks:
+      - web_network
+
+networks:
+  web_network:

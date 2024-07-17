@@ -1,6 +1,6 @@
 CREATE DATABASE jwt_fastify_vue;
 
-\d jwt_fastify_vue;
+\c jwt_fastify_vue;
 
 CREATE TABLE users(
     id serial,

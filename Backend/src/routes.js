@@ -31,11 +31,14 @@ module.exports = (fastify) => {
 		if (!(await fastify.bcrypt.compare(password, hashedPassword)))
 			return res.code(400).send("Wrong Password!");
 
-		const jwt = fastify.jwt.sign({ username, password }, { expiresIn: "1h" });
+		const jwt = fastify.jwt.sign(
+			{ id: result.rows[0].id, username, password },
+			{ expiresIn: "1h" }
+		);
 		return res.send({ jwt });
 	});
 
 	fastify.get("/test", (req, res) => {
-		return res.send("ok with jwt validation ...");
+		return res.send(req.userData);
 	});
 };

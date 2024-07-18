@@ -11,6 +11,7 @@ require("./src/plugins/postgres")(fastify)
 	.then(() => {
 		require("./src/hooks/jwtAuth")(fastify);
 		require("./src/routes")(fastify);
+		require("./src/plugins/cors")(fastify);
 	});
 
 fastify.listen({ port: process.env.PORT, host: process.env.HOST });
